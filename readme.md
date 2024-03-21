@@ -4,8 +4,8 @@
 This is the source code for paper [Discriminability-Driven Channel Selection for Out-of-Distribution Detection]
 by Yue Yuan, Rundong He, YiCong Dong, Zhongyi Han and Yilong Yin.
 
-In this work, we propose propose a new activation-based OOD detection method called DDCS, which introduces a newly-designed function to rectify the extremely low and high activations at the same time.
-In this way, LHAct solves the problem of model underconfidence on ID data and overconfidence on OOD data.
+In this work, we propose propose a new test-time OOD detection method called DDCS, which adaptively selects channels with high class discrimination to improve out-of-distribution detection performance
+
 
 ## Usage
 
@@ -41,7 +41,7 @@ Please put all downloaded OOD datasets into `./datasets/ood_data/`.
 
 ### 2. Pre-trained Model Preparation
 
-The model we used in the paper is the pre-trained ResNet-50 provided by Pytorch. The download process
+The model we used in the paper is the pre-trained MobileNet-V2 provided by Pytorch. The download process
 will start upon running.
 
 
@@ -52,7 +52,18 @@ To get activations on the penultimate layer, please run:
 python get_activation.py 
 ```
 
-### 4. OOD Detection Evaluation
+### 4. ID discriminative score
+
+To get ID discriminative score for each channel, please run:
+
+```
+python ID_mean.py
+python ID_val.py
+python DDscore.py
+```
+
+
+### 5. OOD Detection Evaluation
 
 To reproduce our results, please run:
 ```
@@ -60,11 +71,3 @@ python eval.py
 ```
 
 
-## 5. OOD Detection Results
-
-LHAct achieves state-of-the-art performance averaged on the 4 OOD datasets.
-
-(./results.png)
-
-
-## The code is improved based on [ReAct: Out-of-distribution Detection With Rectified Activations](https://openreview.net/pdf?id=IBVBtz_sRSm)'s source code.
