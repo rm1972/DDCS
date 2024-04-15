@@ -49,7 +49,7 @@ will start upon running.
 To get activations on the penultimate layer, please run:
 
 ```
-python get_activation.py 
+python compute_threshold.py 
 ```
 
 ### 4. ID discriminative score
