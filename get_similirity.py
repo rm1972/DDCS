@@ -12,7 +12,7 @@ class_means_tensor = torch.tensor(class_means_list, dtype=torch.float32)
 
 cate_num=1000
 feat_dim=1280
-save_file = "energy_similarity_result.pt"
+save_file = "similarity.pt"
 
 mean = class_means_tensor.unsqueeze(1)
 feats = mean.squeeze()
