@@ -13,8 +13,8 @@ In this work, we propose propose a new test-time OOD detection method called DDC
 
 #### In-distribution dataset
 
-Please download [ImageNet-1k](http://www.image-net.org/challenges/LSVRC/2012/index) and place the training data and validation data in
-`./datasets/id_data/ILSVRC-2012/train` and  `./datasets/id_data/ILSVRC-2012/val`, respectively.
+Please download [ImageNet-1k](http://www.image-net.org/challenges/LSVRC/2012/index) and place the validation data in
+ `./datasets/id_data/imagenet/val`.
 
 
 #### Out-of-distribution dataset
