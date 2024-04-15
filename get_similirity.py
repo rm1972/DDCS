@@ -2,7 +2,7 @@
 import numpy as np
 import torch
 
-mean_path = "energy_mean.npy"
+mean_path = "ID_prototype/mean.npy"
 
 class_means_dict = np.load(mean_path, allow_pickle=True).item()  
 
