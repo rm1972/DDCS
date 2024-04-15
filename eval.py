@@ -17,107 +17,7 @@ from score import get_score
 def forward_fun(args):
     def forward_threshold(inputs, model):
         if args.model_arch in {'mobilenet'} :
-            logits = model.forward(inputs, threshold_h=args.threshold_h,threshold_l=args.threshold_l,m=args.m,n=args.n)
-            '''
-            lam=0.9
-            feature_std=torch.load("feat/mobilenet/imagenet_features_std.pt").cuda()
-            feature_mean=torch.load("feat/mobilenet/imagenet_features_mean.pt").cuda() 
-            
-            std=torch.mean(feature_std)  
-            mean=torch.mean(feature_mean)   
-            std1=std-feature_std
-            mean1=mean-feature_mean
-            
-           
-            
-
-            lam_1=lam+std1*0.1+mean1*0.1 #上界阈值
-            lam_2=lam+std1*0.1-mean1*0.1 #下界阈值
-            #lam_1=lam+std1*11 #上界阈值
-            #lam_2=lam+std1*11 #下界阈值
-            
-            
-            features=model.forward_features(inputs)
-            # features = torch.where(features<(feature_std*lam+feature_mean),features,feature_std*lam+feature_mean)
-            # features = torch.where(features>(-feature_std*lam+feature_mean),features,-feature_std*lam+feature_mean)
-            features = torch.where(features<(feature_std*lam_1+feature_mean),features,feature_std*lam_1+feature_mean)
-            features = torch.where(features>(-feature_std*lam_2+feature_mean),features,-feature_std*lam_2+feature_mean)
-            logits=model.forward_head(features)
-            '''
-        elif args.model_arch.find('resnet') > -1:
-            #logits = model.forward_threshold(inputs, threshold=args.threshold)
-            
-            #features=model.forward_features(inputs)  #25,2048
-            #print(features.shape)
-            
-            # start_channel = 2000
-            # end_channel = 2050
-            # features[:, start_channel:end_channel] = 0
-            
-            
-            # channel_to_zero = 1000
-            # features[:, channel_to_zero] = 0
-            
-            
-            # channel_to_keep = 40
-            # features[:, :channel_to_keep] = 0
-            # features[:, channel_to_keep + 1:] = 0
-            
-            
-            
-            lam=1.5
-            feature_std=torch.load("feat/resnet50/imagenet_features_std.pt").cuda()
-            feature_mean=torch.load("feat/resnet50/imagenet_features_mean.pt").cuda() 
-            
-            m=args.m
-            
-            n=args.n
-            
-            std=torch.mean(feature_std)  
-            mean=torch.mean(feature_mean)   
-            std1=std-feature_std
-            mean1=mean-feature_mean
-            
-
-           
-            lam_1=lam+mean1*m+std1*n #上界阈值
-            lam_2=lam-mean1*m+std1*n #下界阈值
-            
-            # lam_1_cpu = lam_1.cpu().numpy()
-            # lam_2_cpu = lam_2.cpu().numpy()
-
-            # # 分别保存到两个txt文件
-            # with open("./figs/txt/lam_1.txt", "w") as f1:
-            #     for value in lam_1_cpu:
-            #         f1.write(str(value) + "\n")
-
-            # with open("./figs/txt/lam_2.txt", "w") as f2:
-            #     for value in lam_2_cpu:
-            #          f2.write(str(value) + "\n")
-            
-            # exit()
-            
-            
-            
-            features=model.forward_features(inputs)
-            
-             # lam_1=lam+std1*0.1+mean1*0.1 #上界阈值
-            # lam_2=lam+std1*0.1-mean1*0.1 #下界阈值
-            # features = torch.where(features<(feature_std*lam+feature_mean),features,feature_std*lam+feature_mean)
-            # features = torch.where(features>(-feature_std*lam+feature_mean),features,-feature_std*lam+feature_mean)
-            
-            
-            features = torch.where(features<(feature_std*lam_1+feature_mean),features,feature_std*lam_1+feature_mean)
-            features = torch.where(features>(-feature_std*lam_2+feature_mean),features,-feature_std*lam_2+feature_mean)
-            
-         
-            
-            # features=model.forward_features(inputs)
-            # features = torch.where(features<(feature_std*lam+feature_mean),features,feature_std*lam+feature_mean)
-            # features = torch.where(features>(-feature_std*lam+feature_mean),features,-feature_std*lam+feature_mean)
-            
-            logits=model.forward_head(features)
-            
+            logits = model.forward(inputs, threshold_h=args.threshold_h,threshold_l=args.threshold_l,a=args.a,k=args.k) 
         else:
             logits = model(inputs)
         return logits
@@ -233,7 +133,6 @@ def eval_ood_detector(args, mode_args):
             t0 = time.time()
 
         f2.close()
-    # 在这里执行你的Python代码
 
     end_time = time.time()
 
@@ -259,14 +158,13 @@ if __name__ == '__main__':
             "imagenet":{
                 "resnet50": 0.005,
                 "resnet50_cl1.0": 0.0,
-                "resnet18": 0.005, #resnet18是自定义
+                "resnet18": 0.005,
                 "mobilenet": 0.03,
                 "mobilenet_cl1.3": 0.04,
             }
         }
         args.method_args['magnitude'] = param_dict[args.in_dataset][args.name]
     if args.method == 'mahalanobis':
-        #哪里生成了'output/mahalanobis_hyperparams/imagenet/resnet18/results.npy'？？
         sample_mean, precision, lr_weights, lr_bias, magnitude = np.load(os.path.join('output/mahalanobis_hyperparams/', args.in_dataset, args.name, 'results.npy'), allow_pickle=True)
         regressor = LogisticRegressionCV(cv=2).fit([[0,0,0,0],[0,0,0,0],[1,1,1,1],[1,1,1,1]], [0,0,1,1])
         regressor.coef_ = lr_weights
