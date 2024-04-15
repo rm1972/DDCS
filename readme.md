@@ -52,14 +52,20 @@ To get activations on the penultimate layer, please run:
 python compute_threshold.py 
 ```
 
-### 4. ID discriminative score
-
-To get ID discriminative score for each channel, please run:
+### 4. ID discriminative score for each channel:
 
 ```
-python ID_mean.py
-python ID_val.py
-python DDscore.py
+### 4.1 To get ID prototypes, please run:
+python ID_prototype.py
+
+### 4.2 To get inter-class ID similirity, please run:
+python get_similirity.py
+
+### 4.3 To get inter-class ID variance, please run:
+python get_variance.py
+
+### 4.4 To get ID discriminative score, please run:
+python get_discriminative_score.py
 ```
 
 
@@ -67,7 +73,7 @@ python DDscore.py
 
 To reproduce our results, please run:
 ```
-python eval.py 
+bash eval.sh 
 ```
 
 
