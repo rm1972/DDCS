@@ -14,5 +14,5 @@ channel_variances = torch.var(class_means_tensor, dim=0) ##2048维
 print("Class-wise channel variances:", channel_variances)
 print(channel_variances.shape)
 
-save_file = "var.pt" 
+save_file = "variance.pt" 
 torch.save(channel_variances,save_file)
