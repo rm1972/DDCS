@@ -189,14 +189,12 @@ class MobileNetV2(nn.Module):
         
         ##LHAct+ours
         selected_channels = torch.load(f"select_k/a={a}/selected_channels_{k}.pt") 
-        # # # 创建一个布尔张量，指定要保持不变的通道位置
+      
         keep_channels = torch.zeros(1280, dtype=torch.bool)
         keep_channels[selected_channels] = True
-        # # # 将不需要的通道设为0
+      
         x[:, ~keep_channels] = 0
        
-        
-        
         x = x.reshape(x.shape[0], -1)
         x = self.classifier(x)
         return x
