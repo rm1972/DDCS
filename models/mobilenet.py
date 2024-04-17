@@ -176,7 +176,7 @@ class MobileNetV2(nn.Module):
         x = self.features(x)
         x = self.avgpool(x)
        
-        ##LHAct
+        ##CAP module: LHAct
         x = x.clip(min=threshold_l).cpu()
         n=2
         def softcap(x):
@@ -187,7 +187,7 @@ class MobileNetV2(nn.Module):
         
         x=x.cuda() 
         
-        ##LHAct+ours
+        ##LHAct+Channel selection
         selected_channels = torch.load(f"select_k/a={a}/selected_channels_{k}.pt") 
       
         keep_channels = torch.zeros(1280, dtype=torch.bool)
