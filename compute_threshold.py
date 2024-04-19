@@ -66,7 +66,7 @@ def eval_ood_detector(args):
             elif args.model_arch.find('resnet') > -1:
                 hooker_handles.append(model.avgpool.register_forward_hook(get_activation(layer_remark)))
 
-            model(inputs)
+            model.forward_thr(inputs)
             [h.remove() for h in hooker_handles]
             feature = activation[layer_remark]
 
