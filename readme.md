@@ -65,7 +65,7 @@ python get_similirity.py
 python get_variance.py
 
 ### 4.4 To get ID discriminative score, please run:
-python get_discriminative_score.py
+python get_discriminative_score.py --a 0.8
 ```
 
 
