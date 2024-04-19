@@ -129,7 +129,6 @@ if __name__ == '__main__':
         }
         args.method_args['magnitude'] = param_dict[args.in_dataset][args.name]
     if args.method == 'mahalanobis':
-        #哪里生成了'output/mahalanobis_hyperparams/imagenet/resnet18/results.npy'？？
         sample_mean, precision, lr_weights, lr_bias, magnitude = np.load(os.path.join('output/mahalanobis_hyperparams/', args.in_dataset, args.name, 'results.npy'), allow_pickle=True)
         regressor = LogisticRegressionCV(cv=2).fit([[0,0,0,0],[0,0,0,0],[1,1,1,1],[1,1,1,1]], [0,0,1,1])
         regressor.coef_ = lr_weights
