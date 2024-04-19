@@ -56,7 +56,7 @@ python compute_threshold.py
 
 ```
 ### 4.1 To get ID prototypes, please run:
-python ID_prototype.py
+python get_prototype.py
 
 ### 4.2 To get inter-class ID similirity, please run:
 python get_similirity.py
