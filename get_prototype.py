@@ -96,7 +96,7 @@ def eval_ood_detector(args, mode_args):
               
         for label, features_list in class_features.items():
             class_means[label] = np.mean(features_list, axis=0)
-            class_means_path = 'mean.npy'
+            class_means_path = 'ID_prototype/mean.npy'
             np.save(class_means_path, class_means)
         
     
