@@ -78,7 +78,7 @@ def eval_ood_detector(args, mode_args):
             inputs = images.float()
 
             # Get the features for the current batch
-            features = model.forward_lhact_feat(inputs,threshold_h,threshold_l)  # Assuming `model.react_feature` extracts the desired layer's features
+            features = model.forward_lhact_feat(inputs,threshold_h,threshold_l)  
             # Iterate over the batch and group features by class
             for j in range(features.shape[0]):
                 image_filename, _ = testloaderIn.dataset.samples[i * curr_batch_size + j]
