@@ -210,6 +210,21 @@ class MobileNetV2(nn.Module):
         x = self.classifier(x)
         return x
 
+    def forward_lhact_feat(self, x, threshold_h,threshold_l):
+        x = self.features(x)
+        x = self.avgpool(x)
+       
+        x = x.clip(min=threshold_l).cpu()
+        n=2
+        def softcap(x):
+            return (1 / ((1 + ((x / threshold_h) ** (2 * n))) ** 0.5)) * x+threshold_l
+        
+        
+        x.detach().apply_(lambda x: x if x < threshold_h else softcap(x))
+        
+        x=x.cuda() 
+        return x
+
     #avgpool-->activation-->reshape-->feature
     def forward_features(self, x):
         feat = self.features(x)
