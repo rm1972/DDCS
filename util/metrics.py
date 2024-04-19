@@ -124,35 +124,8 @@ def save_to_file(filename, content):
     with open(filename, 'w') as file:
         file.write(content)
 
-def print_all_results(results, datasets, method,m, n):
-    mtypes = ['FPR', 'AUROC', 'AUIN']
-    avg_results = compute_average_results(results)
-    output_content = ''
 
-    output_content += f' OOD detection method: {method}\n'
-    output_content += '             '
-    for mtype in mtypes:
-        output_content += f' {mtype:6s}'
-    for result, dataset in zip(results,datasets):
-        output_content += f'\n{dataset:12s}'
-        output_content += f' {100.*result["FPR"]:6.2f}'
-        output_content += f' {100.*result["AUROC"]:6.2f}'
-        output_content += f' {100.*result["AUIN"]:6.2f}'
-
-    output_content += f'\nAVG         '
-    output_content += f' {100.*avg_results["FPR"]:6.2f}'
-    output_content += f' {100.*avg_results["AUROC"]:6.2f}'
-    output_content += f' {100.*avg_results["AUIN"]:6.2f}'
-    output_content += ''
-
-    filename = f'dtd_result/m_{m}_n_{n}.txt'
-    #filename = f'avg_result/clip_threshold_{clip_threshold}.txt'
-    #filename = f'avg_result/lam_{lam}.txt'
-    #filename =  f're.txt'
-    save_to_file(filename, output_content)  
-
-
-def print_all_results_old(results, datasets, method):
+def print_all_results(results, datasets, method):
     mtypes = ['FPR', 'AUROC', 'AUIN']
     avg_results = compute_average_results(results)
     print(' OOD detection method: ' + method)
@@ -211,7 +184,7 @@ def compute_traditional_ood(base_dir, in_dataset, out_datasets, method, name, m,
         results = cal_metric(known, novel, method)
         all_results.append(results)
 
-    print_all_results(all_results, out_datasets, method,m,n)
+    print_all_results(all_results, out_datasets, method)
     return
 
 def compute_stat(base_dir, in_dataset, out_datasets, method, name):
